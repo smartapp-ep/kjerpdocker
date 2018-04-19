@@ -1,3 +1,5 @@
 FROM itprojectsllc/install-odoo:10.0
 
-sed -i 's/dbfilter.*/dbfilter = ^%d$/' /mnt/config/odoo-server.conf
+# update config to support domains
+USER root
+RUN sed -i 's/dbfilter.*/dbfilter = ^%d$/' /mnt/config/odoo-server.conf
