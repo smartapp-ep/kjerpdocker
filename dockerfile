@@ -1,5 +1,6 @@
 FROM itprojectsllc/install-odoo:10.0
 
+RUN echo "Asia/shanghai" > /etc/timezone;
 
 # add material theme
 # RUN git clone --depth=1 -b 10.0 https://github.com/Openworx/backend_theme.git /mnt/addons/extra
