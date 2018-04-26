@@ -13,6 +13,7 @@ RUN UPDATE_ADDONS_PATH=yes \
 
 # update config to support domains
 USER root
-RUN sed -i 's/dbfilter.*/dbfilter = ^%d$/' /mnt/config/odoo-server.conf
+#RUN sed -i 's/dbfilter.*/dbfilter = ^%d$/' /mnt/config/odoo-server.conf
+#commented out for single db (actually no subdomain db)
 
 
