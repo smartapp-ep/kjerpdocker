@@ -1,6 +1,6 @@
 FROM itprojectsllc/install-odoo:10.0
 
-RUN echo "Asia/shanghai" > /etc/timezone;
+
 
 # add material theme
 # RUN git clone --depth=1 -b 10.0 https://github.com/Openworx/backend_theme.git /mnt/addons/extra
@@ -16,4 +16,5 @@ USER root
 #RUN sed -i 's/dbfilter.*/dbfilter = ^%d$/' /mnt/config/odoo-server.conf
 #commented out for single db (actually no subdomain db)
 
+RUN echo "Asia/shanghai" > /etc/timezone;
 
