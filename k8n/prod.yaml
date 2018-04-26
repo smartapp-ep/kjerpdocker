@@ -1,0 +1,3132 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      kubernetes.io/created-by: |
+        {"kind":"SerializedReference","apiVersion":"v1","reference":{"kind":"ReplicaSet","namespace":"prod","name":"db-saas-295826640","uid":"d68671fe-4460-11e8-9f69-525400f7320d","apiVersion":"extensions","resourceVersion":"17202026901"}}
+    creationTimestamp: 2018-04-20T13:55:37Z
+    generateName: db-saas-295826640-
+    labels:
+      pod-template-hash: "295826640"
+      qcloud-app: db-saas
+    name: db-saas-295826640-8qghx
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: db-saas-295826640
+      uid: d68671fe-4460-11e8-9f69-525400f7320d
+    resourceVersion: "17202076054"
+    selfLink: /api/v1/namespaces/prod/pods/db-saas-295826640-8qghx
+    uid: 80ea27dd-44a2-11e8-9f69-525400f7320d
+  spec:
+    containers:
+    - env:
+      - name: POSTGRES_USER
+        value: odoo
+      - name: POSTGRES_PASSWORD
+        value: odoo
+      image: postgres:9.5
+      imagePullPolicy: Always
+      name: db-saas
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1Gi
+        requests:
+          cpu: 250m
+          memory: 256Mi
+      securityContext:
+        privileged: false
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/lib/postgresql
+        name: prod
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-vqpj8
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
+    - name: qcloudregistrykey
+    nodeName: 10.0.3.16
+    nodeSelector:
+      failure-domain.beta.kubernetes.io/zone: "100003"
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    volumes:
+    - name: prod
+      qcloudCbs:
+        cbsDiskId: disk-1eeba534
+        fsType: ext4
+    - name: default-token-vqpj8
+      secret:
+        defaultMode: 420
+        secretName: default-token-vqpj8
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2018-04-20T13:55:37Z
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: 2018-04-20T13:56:14Z
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: 2018-04-20T13:55:37Z
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://bc0e7da6074f2b4e79046f9f46b7832cbc50d7c3edb5e8396a55a3b078848a1c
+      image: postgres:9.5
+      imageID: docker-pullable://postgres@sha256:888b62ebb1265a7df59258fa22227e707faa2b39d9abfe2a1d6f9e3cd5936468
+      lastState: {}
+      name: db-saas
+      ready: true
+      restartCount: 0
+      state:
+        running:
+          startedAt: 2018-04-20T13:56:12Z
+    hostIP: 10.0.3.16
+    phase: Running
+    podIP: 172.16.0.39
+    qosClass: Burstable
+    startTime: 2018-04-20T13:55:37Z
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      kubernetes.io/created-by: |
+        {"kind":"SerializedReference","apiVersion":"v1","reference":{"kind":"ReplicaSet","namespace":"prod","name":"odoo-808074148","uid":"afe7c1f9-4515-11e8-9f69-525400f7320d","apiVersion":"extensions","resourceVersion":"17856058931"}}
+    creationTimestamp: 2018-04-26T07:03:52Z
+    generateName: odoo-808074148-
+    labels:
+      pod-template-hash: "808074148"
+      qcloud-app: odoo
+    name: odoo-808074148-6d18f
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: odoo-808074148
+      uid: afe7c1f9-4515-11e8-9f69-525400f7320d
+    resourceVersion: "17856062252"
+    selfLink: /api/v1/namespaces/prod/pods/odoo-808074148-6d18f
+    uid: f9e99939-491f-11e8-9f69-525400f7320d
+  spec:
+    containers:
+    - env:
+      - name: ODOO_MASTER_PASS
+        value: odoo
+      - name: DB_PORT_5432_TCP_ADDR
+        value: db-saas
+      - name: INIT_SAAS_TOOLS_VALUE
+        value: ' --portal-create --server-create  --plan-create  --odoo-script=/mnt/odoo-source/odoo-bin  --odoo-config=mnt/config/odoo-server.conf  --portal-db-name=portal  --server-db-name=server-1  --server-hosts-template={dbname}.{base_saas_domain_1}  --plan-template-db-name=template-1  --plan-clients=demo-%i'
+      image: ccr.ccs.tencentyun.com/kjerp/odoo-saas:master
+      imagePullPolicy: Always
+      name: odoo
+      resources:
+        limits:
+          cpu: 500m
+          memory: 800Mi
+        requests:
+          cpu: 250m
+          memory: 256Mi
+      securityContext:
+        privileged: false
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /mnt/addons/extra
+        name: extra
+      - mountPath: /mnt/config
+        name: config
+      - mountPath: /mnt/data-dir
+        name: data-dir
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-vqpj8
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
+    - name: qcloudregistrykey
+    nodeName: 10.0.3.16
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    volumes:
+    - name: extra
+      nfs:
+        path: /odoo-saas/addons/extra
+        server: 10.0.3.13
+    - name: config
+      nfs:
+        path: /odoo-saas/kjerpdocker/config
+        server: 10.0.3.13
+    - name: data-dir
+      nfs:
+        path: /odoo-saas/data-dir
+        server: 10.0.3.13
+    - name: default-token-vqpj8
+      secret:
+        defaultMode: 420
+        secretName: default-token-vqpj8
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2018-04-26T07:03:52Z
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: 2018-04-26T07:03:54Z
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: 2018-04-26T07:03:52Z
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://a452171d0ec4f269e4a830b6f558a03e42a5e6862038a73d7ac44342b6adcd54
+      image: ccr.ccs.tencentyun.com/kjerp/odoo-saas:master
+      imageID: docker-pullable://ccr.ccs.tencentyun.com/kjerp/odoo-saas@sha256:5f4d5773efec399ffb684130f9a88ffe002b552fa2561b2f8fb09f899203b2b9
+      lastState: {}
+      name: odoo
+      ready: true
+      restartCount: 0
+      state:
+        running:
+          startedAt: 2018-04-26T07:03:53Z
+    hostIP: 10.0.3.16
+    phase: Running
+    podIP: 172.16.0.137
+    qosClass: Burstable
+    startTime: 2018-04-26T07:03:52Z
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      kubernetes.io/created-by: |
+        {"kind":"SerializedReference","apiVersion":"v1","reference":{"kind":"ReplicaSet","namespace":"prod","name":"saas-nginx-1004072575","uid":"82072388-48b7-11e8-9f69-525400f7320d","apiVersion":"extensions","resourceVersion":"17796125285"}}
+    creationTimestamp: 2018-04-25T18:36:03Z
+    generateName: saas-nginx-1004072575-
+    labels:
+      pod-template-hash: "1004072575"
+      qcloud-app: saas-nginx
+    name: saas-nginx-1004072575-qljd5
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: saas-nginx-1004072575
+      uid: 82072388-48b7-11e8-9f69-525400f7320d
+    resourceVersion: "17796133112"
+    selfLink: /api/v1/namespaces/prod/pods/saas-nginx-1004072575-qljd5
+    uid: 820a7576-48b7-11e8-9f69-525400f7320d
+  spec:
+    containers:
+    - image: itprojectsllc/docker-odoo-nginx
+      imagePullPolicy: Always
+      name: saas-nginx
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 250m
+          memory: 256Mi
+      securityContext:
+        privileged: false
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /mnt/tmp
+        name: nginx
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-vqpj8
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
+    - name: qcloudregistrykey
+    nodeName: 10.0.3.16
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    volumes:
+    - name: nginx
+      nfs:
+        path: /odoo-saas/nginx
+        server: 10.0.3.13
+    - name: default-token-vqpj8
+      secret:
+        defaultMode: 420
+        secretName: default-token-vqpj8
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2018-04-25T18:36:03Z
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: 2018-04-25T18:36:08Z
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: 2018-04-25T18:36:03Z
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://c10cabe18d26d15cd61ab8855c5a0b2d3c02e71a3c277d6bfb0d4540e8cd351b
+      image: itprojectsllc/docker-odoo-nginx:latest
+      imageID: docker-pullable://itprojectsllc/docker-odoo-nginx@sha256:d85f9a96e9a83337fbe2ede4137f07ff0204ed5dfbd7a46934394dea4e4c5b41
+      lastState: {}
+      name: saas-nginx
+      ready: true
+      restartCount: 0
+      state:
+        running:
+          startedAt: 2018-04-25T18:36:07Z
+    hostIP: 10.0.3.16
+    phase: Running
+    podIP: 172.16.0.136
+    qosClass: Burstable
+    startTime: 2018-04-25T18:36:03Z
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      service.kubernetes.io/qcloud-loadbalancer-clusterid: cls-rjtlglbu
+    creationTimestamp: 2018-04-18T08:25:01Z
+    labels:
+      qcloud-app: db-saas
+    name: db-saas
+    namespace: prod
+    resourceVersion: "17201928564"
+    selfLink: /api/v1/namespaces/prod/services/db-saas
+    uid: fcc6e327-42e1-11e8-9f69-525400f7320d
+  spec:
+    clusterIP: 172.16.255.122
+    ports:
+    - name: tcp-5432-5432-n6ch8
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+    selector:
+      qcloud-app: db-saas
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      service.kubernetes.io/qcloud-loadbalancer-clusterid: cls-rjtlglbu
+    creationTimestamp: 2018-04-20T13:24:52Z
+    labels:
+      qcloud-app: dbjob
+    name: dbjob
+    namespace: prod
+    resourceVersion: "17839832559"
+    selfLink: /api/v1/namespaces/prod/services/dbjob
+    uid: 35515b21-449e-11e8-9f69-525400f7320d
+  spec:
+    clusterIP: 172.16.255.233
+    ports:
+    - name: tcp-5432-5432-9ues6
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+    selector:
+      qcloud-app: dbjob
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      service.kubernetes.io/qcloud-loadbalancer-clusterid: cls-rjtlglbu
+    creationTimestamp: 2018-04-18T14:05:48Z
+    labels:
+      qcloud-app: odoo
+    name: odoo
+    namespace: prod
+    resourceVersion: "17267106225"
+    selfLink: /api/v1/namespaces/prod/services/odoo
+    uid: 9885c93a-4311-11e8-9f69-525400f7320d
+  spec:
+    clusterIP: 172.16.255.47
+    ports:
+    - name: tcp-8069-8069-4wpcs
+      port: 8069
+      protocol: TCP
+      targetPort: 8069
+    - name: tcp-8072-8072-lszfo
+      port: 8072
+      protocol: TCP
+      targetPort: 8072
+    selector:
+      qcloud-app: odoo
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      service.kubernetes.io/qcloud-loadbalancer-clusterid: cls-rjtlglbu
+    creationTimestamp: 2018-04-25T14:22:53Z
+    labels:
+      qcloud-app: odoo-tmp
+    name: odoo-tmp
+    namespace: prod
+    resourceVersion: "17775920559"
+    selfLink: /api/v1/namespaces/prod/services/odoo-tmp
+    uid: 246b422b-4894-11e8-9f69-525400f7320d
+  spec:
+    clusterIP: 172.16.255.142
+    ports:
+    - name: tcp-8069-8069-fhx47
+      port: 8079
+      protocol: TCP
+      targetPort: 8069
+    - name: tcp-8072-8072-3flqw
+      port: 8082
+      protocol: TCP
+      targetPort: 8072
+    selector:
+      qcloud-app: odoo-tmp
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      service.kubernetes.io/qcloud-loadbalancer-clusterid: cls-rjtlglbu
+    creationTimestamp: 2018-04-18T14:09:09Z
+    labels:
+      qcloud-app: saas-nginx
+    name: saas-nginx
+    namespace: prod
+    resourceVersion: "17796125282"
+    selfLink: /api/v1/namespaces/prod/services/saas-nginx
+    uid: 1014b982-4312-11e8-9f69-525400f7320d
+  spec:
+    clusterIP: 172.16.255.82
+    externalTrafficPolicy: Cluster
+    ports:
+    - name: tcp-80-80-kdry7
+      nodePort: 32099
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    selector:
+      qcloud-app: saas-nginx
+    sessionAffinity: None
+    type: LoadBalancer
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 193.112.230.56
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/revision: "8"
+    creationTimestamp: 2018-04-18T08:25:01Z
+    generation: 11
+    labels:
+      qcloud-app: db-saas
+    name: db-saas
+    namespace: prod
+    resourceVersion: "17202089320"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/deployments/db-saas
+    uid: fcc11393-42e1-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 1
+    revisionHistoryLimit: 5
+    selector:
+      matchLabels:
+        qcloud-app: db-saas
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          qcloud-app: db-saas
+      spec:
+        containers:
+        - env:
+          - name: POSTGRES_USER
+            value: odoo
+          - name: POSTGRES_PASSWORD
+            value: odoo
+          image: postgres:9.5
+          imagePullPolicy: Always
+          name: db-saas
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/postgresql
+            name: prod
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        nodeSelector:
+          failure-domain.beta.kubernetes.io/zone: "100003"
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: prod
+          qcloudCbs:
+            cbsDiskId: disk-1eeba534
+            fsType: ext4
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: 2018-04-20T13:56:24Z
+      lastUpdateTime: 2018-04-20T13:56:24Z
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 11
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/revision: "14"
+    creationTimestamp: 2018-04-20T13:24:52Z
+    generation: 26
+    labels:
+      qcloud-app: dbjob
+    name: dbjob
+    namespace: prod
+    resourceVersion: "17839832832"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/deployments/dbjob
+    uid: 354c066e-449e-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    revisionHistoryLimit: 5
+    selector:
+      matchLabels:
+        qcloud-app: dbjob
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          qcloud-app: dbjob
+      spec:
+        containers:
+        - args:
+          - su
+          - root
+          - -c
+          - /bin/bash -x ./pg_backup_rotated.sh;
+          env:
+          - name: POSTGRES_USER
+            value: odoo
+          - name: POSTGRES_PASSWORD
+            value: odoo
+          - name: PGPASSWORD
+            value: odoo
+          image: postgres:9.5
+          imagePullPolicy: Always
+          name: dbjob
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/backup/db
+            name: dbbackup
+          - mountPath: /mnt/backup/filestore
+            name: filestorebackup
+          - mountPath: /mnt/backup/addons
+            name: addonsbackup
+          - mountPath: /mnt/backupscript
+            name: backupscript
+          workingDir: /mnt/backupscript
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: dbbackup
+          nfs:
+            path: /prod/db
+            server: 10.0.4.9
+        - name: filestorebackup
+          nfs:
+            path: /odoo-saas/backup/filestore
+            server: 10.0.3.13
+        - name: addonsbackup
+          nfs:
+            path: /odoo-saas/backup/addons
+            server: 10.0.3.13
+        - name: backupscript
+          nfs:
+            path: /odoo-saas/dbbackup
+            server: 10.0.3.13
+  status:
+    conditions:
+    - lastTransitionTime: 2018-04-23T19:51:58Z
+      lastUpdateTime: 2018-04-23T19:51:58Z
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 26
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/revision: "27"
+    creationTimestamp: 2018-04-18T14:05:48Z
+    generation: 56
+    labels:
+      qcloud-app: odoo
+    name: odoo
+    namespace: prod
+    resourceVersion: "17856075932"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/deployments/odoo
+    uid: 987d18be-4311-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 1
+    revisionHistoryLimit: 5
+    selector:
+      matchLabels:
+        qcloud-app: odoo
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          qcloud-app: odoo
+      spec:
+        containers:
+        - env:
+          - name: ODOO_MASTER_PASS
+            value: odoo
+          - name: DB_PORT_5432_TCP_ADDR
+            value: db-saas
+          - name: INIT_SAAS_TOOLS_VALUE
+            value: ' --portal-create --server-create  --plan-create  --odoo-script=/mnt/odoo-source/odoo-bin  --odoo-config=mnt/config/odoo-server.conf  --portal-db-name=portal  --server-db-name=server-1  --server-hosts-template={dbname}.{base_saas_domain_1}  --plan-template-db-name=template-1  --plan-clients=demo-%i'
+          image: ccr.ccs.tencentyun.com/kjerp/odoo-saas:master
+          imagePullPolicy: Always
+          name: odoo
+          resources:
+            limits:
+              cpu: 500m
+              memory: 800Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/addons/extra
+            name: extra
+          - mountPath: /mnt/config
+            name: config
+          - mountPath: /mnt/data-dir
+            name: data-dir
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: extra
+          nfs:
+            path: /odoo-saas/addons/extra
+            server: 10.0.3.13
+        - name: config
+          nfs:
+            path: /odoo-saas/kjerpdocker/config
+            server: 10.0.3.13
+        - name: data-dir
+          nfs:
+            path: /odoo-saas/data-dir
+            server: 10.0.3.13
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: 2018-04-26T07:04:04Z
+      lastUpdateTime: 2018-04-26T07:04:04Z
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 56
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: RollingBack
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: 2018-04-25T14:22:53Z
+    generation: 2
+    labels:
+      qcloud-app: odoo-tmp
+    name: odoo-tmp
+    namespace: prod
+    resourceVersion: "17856044505"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/deployments/odoo-tmp
+    uid: 24657d2b-4894-11e8-9f69-525400f7320d
+  spec:
+    replicas: 0
+    revisionHistoryLimit: 5
+    selector:
+      matchLabels:
+        qcloud-app: odoo-tmp
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          qcloud-app: odoo-tmp
+      spec:
+        containers:
+        - env:
+          - name: ODOO_MASTER_PASS
+            value: odoo
+          - name: DB_PORT_5432_TCP_ADDR
+            value: db-saas
+          image: itprojectsllc/install-odoo:10.0
+          imagePullPolicy: Always
+          name: odoo-tmp
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/addons/extra
+            name: extra
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: extra
+          nfs:
+            path: /odoo-saas/addons/extra
+            server: 10.0.3.13
+  status:
+    conditions:
+    - lastTransitionTime: 2018-04-25T14:23:05Z
+      lastUpdateTime: 2018-04-25T14:23:05Z
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 2
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/revision: "43"
+    creationTimestamp: 2018-04-18T14:09:08Z
+    generation: 75
+    labels:
+      qcloud-app: saas-nginx
+    name: saas-nginx
+    namespace: prod
+    resourceVersion: "17796147026"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/deployments/saas-nginx
+    uid: 0fbecc9f-4312-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 1
+    revisionHistoryLimit: 5
+    selector:
+      matchLabels:
+        qcloud-app: saas-nginx
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          qcloud-app: saas-nginx
+      spec:
+        containers:
+        - image: itprojectsllc/docker-odoo-nginx
+          imagePullPolicy: Always
+          name: saas-nginx
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/tmp
+            name: nginx
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: nginx
+          nfs:
+            path: /odoo-saas/nginx
+            server: 10.0.3.13
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: 2018-04-18T14:09:34Z
+      lastUpdateTime: 2018-04-18T14:09:34Z
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 75
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: RollingBack
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "1"
+      deployment.kubernetes.io/revision: "7"
+    creationTimestamp: 2018-04-20T13:55:25Z
+    generation: 2
+    labels:
+      pod-template-hash: "2271403090"
+      qcloud-app: db-saas
+    name: db-saas-2271403090
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: db-saas
+      uid: fcc11393-42e1-11e8-9f69-525400f7320d
+    resourceVersion: "17202011720"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/db-saas-2271403090
+    uid: 79fabcd2-44a2-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "2271403090"
+        qcloud-app: db-saas
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "2271403090"
+          qcloud-app: db-saas
+      spec:
+        containers:
+        - env:
+          - name: POSTGRES_USER
+            value: odoo
+          - name: POSTGRES_PASSWORD
+            value: odoo
+          - name: PGPASSWORD
+            value: odoo
+          image: postgres:9.5
+          imagePullPolicy: Always
+          name: db-saas
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/postgresql
+            name: prod
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        nodeSelector:
+          failure-domain.beta.kubernetes.io/zone: "100003"
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: prod
+          qcloudCbs:
+            cbsDiskId: disk-1eeba534
+            fsType: ext4
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "3"
+      deployment.kubernetes.io/revision-history: 1,1
+    creationTimestamp: 2018-04-18T08:25:01Z
+    generation: 5
+    labels:
+      pod-template-hash: "236353728"
+      qcloud-app: db-saas
+    name: db-saas-236353728
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: db-saas
+      uid: fcc11393-42e1-11e8-9f69-525400f7320d
+    resourceVersion: "17062470071"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/db-saas-236353728
+    uid: fcc2b895-42e1-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "236353728"
+        qcloud-app: db-saas
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "236353728"
+          qcloud-app: db-saas
+      spec:
+        containers:
+        - env:
+          - name: POSTGRES_USER
+            value: odoo
+          - name: POSTGRES_PASSWORD
+            value: odoo
+          image: postgres:9.5
+          imagePullPolicy: Always
+          name: db-saas
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/postgresql
+            name: dbtest1
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - hostPath:
+            path: /data/db/test1
+          name: dbtest1
+  status:
+    observedGeneration: 5
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "1"
+      deployment.kubernetes.io/revision: "4"
+    creationTimestamp: 2018-04-19T08:17:32Z
+    generation: 2
+    labels:
+      pod-template-hash: "259105856"
+      qcloud-app: db-saas
+    name: db-saas-259105856
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: db-saas
+      uid: fcc11393-42e1-11e8-9f69-525400f7320d
+    resourceVersion: "17163522637"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/db-saas-259105856
+    uid: 1bc69b9a-43aa-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "259105856"
+        qcloud-app: db-saas
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "259105856"
+          qcloud-app: db-saas
+      spec:
+        containers:
+        - env:
+          - name: POSTGRES_USER
+            value: odoo
+          - name: POSTGRES_PASSWORD
+            value: odoo
+          image: postgres:9.5
+          imagePullPolicy: Always
+          name: db-saas
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: dbtest1
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - hostPath:
+            path: /data/db/test1/data
+          name: dbtest1
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "1"
+      deployment.kubernetes.io/revision: "8"
+      deployment.kubernetes.io/revision-history: "6"
+    creationTimestamp: 2018-04-20T06:05:34Z
+    generation: 5
+    labels:
+      pod-template-hash: "295826640"
+      qcloud-app: db-saas
+    name: db-saas-295826640
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: db-saas
+      uid: fcc11393-42e1-11e8-9f69-525400f7320d
+    resourceVersion: "17202089300"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/db-saas-295826640
+    uid: d68671fe-4460-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 1
+    selector:
+      matchLabels:
+        pod-template-hash: "295826640"
+        qcloud-app: db-saas
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "295826640"
+          qcloud-app: db-saas
+      spec:
+        containers:
+        - env:
+          - name: POSTGRES_USER
+            value: odoo
+          - name: POSTGRES_PASSWORD
+            value: odoo
+          image: postgres:9.5
+          imagePullPolicy: Always
+          name: db-saas
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/postgresql
+            name: prod
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        nodeSelector:
+          failure-domain.beta.kubernetes.io/zone: "100003"
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: prod
+          qcloudCbs:
+            cbsDiskId: disk-1eeba534
+            fsType: ext4
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 5
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "1"
+      deployment.kubernetes.io/revision: "5"
+    creationTimestamp: 2018-04-20T05:49:27Z
+    generation: 2
+    labels:
+      pod-template-hash: "3550325451"
+      qcloud-app: db-saas
+    name: db-saas-3550325451
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: db-saas
+      uid: fcc11393-42e1-11e8-9f69-525400f7320d
+    resourceVersion: "17164840072"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/db-saas-3550325451
+    uid: 96304acc-445e-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "3550325451"
+        qcloud-app: db-saas
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "3550325451"
+          qcloud-app: db-saas
+      spec:
+        containers:
+        - env:
+          - name: POSTGRES_USER
+            value: odoo
+          - name: POSTGRES_PASSWORD
+            value: odoo
+          image: postgres:9.5
+          imagePullPolicy: Always
+          name: db-saas
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: prod
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        nodeSelector:
+          failure-domain.beta.kubernetes.io/zone: "100003"
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: prod
+          qcloudCbs:
+            cbsDiskId: disk-1eeba534
+            fsType: ext4
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "2"
+    creationTimestamp: 2018-04-19T03:10:57Z
+    generation: 2
+    labels:
+      pod-template-hash: "4084786326"
+      qcloud-app: db-saas
+      qcloud-redeploy-timestamp: "1524107457"
+    name: db-saas-4084786326
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: db-saas
+      uid: fcc11393-42e1-11e8-9f69-525400f7320d
+    resourceVersion: "17059839441"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/db-saas-4084786326
+    uid: 477b70f3-437f-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "4084786326"
+        qcloud-app: db-saas
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "4084786326"
+          qcloud-app: db-saas
+          qcloud-redeploy-timestamp: "1524107457"
+      spec:
+        containers:
+        - env:
+          - name: POSTGRES_USER
+            value: odoo
+          - name: POSTGRES_PASSWORD
+            value: odoo
+          image: postgres:9.5
+          imagePullPolicy: Always
+          name: db-saas
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/postgresql
+            name: dbtest1
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - hostPath:
+            path: /data/db/test1
+          name: dbtest1
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "1"
+      deployment.kubernetes.io/revision: "13"
+    creationTimestamp: 2018-04-23T18:35:43Z
+    generation: 3
+    labels:
+      pod-template-hash: "1057100884"
+      qcloud-app: dbjob
+    name: dbjob-1057100884
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: dbjob
+      uid: 354c066e-449e-11e8-9f69-525400f7320d
+    resourceVersion: "17572139620"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/dbjob-1057100884
+    uid: 21a6d2db-4725-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "1057100884"
+        qcloud-app: dbjob
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "1057100884"
+          qcloud-app: dbjob
+      spec:
+        containers:
+        - args:
+          - su
+          - root
+          - -c
+          - /bin/bash -x ./pg_backup_rotated.sh;
+          env:
+          - name: POSTGRES_USER
+            value: odoo
+          - name: POSTGRES_PASSWORD
+            value: odoo
+          - name: PGPASSWORD
+            value: odoo
+          image: postgres:9.5
+          imagePullPolicy: Always
+          name: dbjob
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/backup/db
+            name: dbbackup
+          - mountPath: /mnt/backup/filestore
+            name: filestorebackup
+          - mountPath: /mnt/backup/addons
+            name: addonsbackup
+          - mountPath: /mnt/backupscript
+            name: backupscript
+          workingDir: /mnt/backupscript
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: dbbackup
+          nfs:
+            path: /odoo-saas/backup/db
+            server: 10.0.3.13
+        - name: filestorebackup
+          nfs:
+            path: /odoo-saas/backup/filestore
+            server: 10.0.3.13
+        - name: addonsbackup
+          nfs:
+            path: /odoo-saas/backup/addons
+            server: 10.0.3.13
+        - name: backupscript
+          nfs:
+            path: /odoo-saas/dbbackup
+            server: 10.0.3.13
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "12"
+    creationTimestamp: 2018-04-23T18:35:06Z
+    generation: 3
+    labels:
+      pod-template-hash: "1446831828"
+      qcloud-app: dbjob
+    name: dbjob-1446831828
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: dbjob
+      uid: 354c066e-449e-11e8-9f69-525400f7320d
+    resourceVersion: "17566104659"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/dbjob-1446831828
+    uid: 0b7f8c85-4725-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "1446831828"
+        qcloud-app: dbjob
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "1446831828"
+          qcloud-app: dbjob
+      spec:
+        containers:
+        - args:
+          - su
+          - root
+          - -c
+          - /bin/bash - x ./pg_backup_rotated.sh;
+          env:
+          - name: POSTGRES_USER
+            value: odoo
+          - name: POSTGRES_PASSWORD
+            value: odoo
+          - name: PGPASSWORD
+            value: odoo
+          image: postgres:9.5
+          imagePullPolicy: Always
+          name: dbjob
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/backup/db
+            name: dbbackup
+          - mountPath: /mnt/backup/filestore
+            name: filestorebackup
+          - mountPath: /mnt/backup/addons
+            name: addonsbackup
+          - mountPath: /mnt/backupscript
+            name: backupscript
+          workingDir: /mnt/backupscript
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: dbbackup
+          nfs:
+            path: /odoo-saas/backup/db
+            server: 10.0.3.13
+        - name: filestorebackup
+          nfs:
+            path: /odoo-saas/backup/filestore
+            server: 10.0.3.13
+        - name: addonsbackup
+          nfs:
+            path: /odoo-saas/backup/addons
+            server: 10.0.3.13
+        - name: backupscript
+          nfs:
+            path: /odoo-saas/dbbackup
+            server: 10.0.3.13
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "11"
+    creationTimestamp: 2018-04-23T18:33:23Z
+    generation: 3
+    labels:
+      pod-template-hash: "1539691467"
+      qcloud-app: dbjob
+    name: dbjob-1539691467
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: dbjob
+      uid: 354c066e-449e-11e8-9f69-525400f7320d
+    resourceVersion: "17566085663"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/dbjob-1539691467
+    uid: cdfbf0b8-4724-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "1539691467"
+        qcloud-app: dbjob
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "1539691467"
+          qcloud-app: dbjob
+      spec:
+        containers:
+        - args:
+          - su
+          - postgres
+          - -c
+          - /bin/bash - x ./pg_backup_rotated.sh;
+          env:
+          - name: POSTGRES_USER
+            value: odoo
+          - name: POSTGRES_PASSWORD
+            value: odoo
+          - name: PGPASSWORD
+            value: odoo
+          image: postgres:9.5
+          imagePullPolicy: Always
+          name: dbjob
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/backup/db
+            name: dbbackup
+          - mountPath: /mnt/backup/filestore
+            name: filestorebackup
+          - mountPath: /mnt/backup/addons
+            name: addonsbackup
+          - mountPath: /mnt/backupscript
+            name: backupscript
+          workingDir: /mnt/backupscript
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: dbbackup
+          nfs:
+            path: /odoo-saas/backup/db
+            server: 10.0.3.13
+        - name: filestorebackup
+          nfs:
+            path: /odoo-saas/backup/filestore
+            server: 10.0.3.13
+        - name: addonsbackup
+          nfs:
+            path: /odoo-saas/backup/addons
+            server: 10.0.3.13
+        - name: backupscript
+          nfs:
+            path: /odoo-saas/dbbackup
+            server: 10.0.3.13
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "10"
+    creationTimestamp: 2018-04-23T18:32:32Z
+    generation: 3
+    labels:
+      pod-template-hash: "259524940"
+      qcloud-app: dbjob
+    name: dbjob-259524940
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: dbjob
+      uid: 354c066e-449e-11e8-9f69-525400f7320d
+    resourceVersion: "17566036262"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/dbjob-259524940
+    uid: afcd5d19-4724-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "259524940"
+        qcloud-app: dbjob
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "259524940"
+          qcloud-app: dbjob
+      spec:
+        containers:
+        - args:
+          - su
+          - postgres
+          - -c
+          - bash - x ./pg_backup_rotated.sh;
+          env:
+          - name: POSTGRES_USER
+            value: odoo
+          - name: POSTGRES_PASSWORD
+            value: odoo
+          - name: PGPASSWORD
+            value: odoo
+          image: postgres:9.5
+          imagePullPolicy: Always
+          name: dbjob
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/backup/db
+            name: dbbackup
+          - mountPath: /mnt/backup/filestore
+            name: filestorebackup
+          - mountPath: /mnt/backup/addons
+            name: addonsbackup
+          - mountPath: /mnt/backupscript
+            name: backupscript
+          workingDir: /mnt/backupscript
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: dbbackup
+          nfs:
+            path: /odoo-saas/backup/db
+            server: 10.0.3.13
+        - name: filestorebackup
+          nfs:
+            path: /odoo-saas/backup/filestore
+            server: 10.0.3.13
+        - name: addonsbackup
+          nfs:
+            path: /odoo-saas/backup/addons
+            server: 10.0.3.13
+        - name: backupscript
+          nfs:
+            path: /odoo-saas/dbbackup
+            server: 10.0.3.13
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "8"
+    creationTimestamp: 2018-04-23T18:28:36Z
+    generation: 3
+    labels:
+      pod-template-hash: "2859482256"
+      qcloud-app: dbjob
+    name: dbjob-2859482256
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: dbjob
+      uid: 354c066e-449e-11e8-9f69-525400f7320d
+    resourceVersion: "17565898785"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/dbjob-2859482256
+    uid: 23260c39-4724-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "2859482256"
+        qcloud-app: dbjob
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "2859482256"
+          qcloud-app: dbjob
+      spec:
+        containers:
+        - args:
+          - bash
+          - -x
+          - -c
+          - ./pg_backup_rotated.sh
+          env:
+          - name: POSTGRES_USER
+            value: odoo
+          - name: POSTGRES_PASSWORD
+            value: odoo
+          - name: PGPASSWORD
+            value: odoo
+          image: postgres:9.5
+          imagePullPolicy: Always
+          name: dbjob
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/backup/db
+            name: dbbackup
+          - mountPath: /mnt/backup/filestore
+            name: filestorebackup
+          - mountPath: /mnt/backup/addons
+            name: addonsbackup
+          - mountPath: /mnt/backupscript
+            name: backupscript
+          workingDir: /mnt/backupscript
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: dbbackup
+          nfs:
+            path: /odoo-saas/backup/db
+            server: 10.0.3.13
+        - name: filestorebackup
+          nfs:
+            path: /odoo-saas/backup/filestore
+            server: 10.0.3.13
+        - name: addonsbackup
+          nfs:
+            path: /odoo-saas/backup/addons
+            server: 10.0.3.13
+        - name: backupscript
+          nfs:
+            path: /odoo-saas/dbbackup
+            server: 10.0.3.13
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "1"
+      deployment.kubernetes.io/revision: "14"
+    creationTimestamp: 2018-04-26T03:42:47Z
+    generation: 1
+    labels:
+      pod-template-hash: "729640448"
+      qcloud-app: dbjob
+    name: dbjob-729640448
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: dbjob
+      uid: 354c066e-449e-11e8-9f69-525400f7320d
+    resourceVersion: "17839832606"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/dbjob-729640448
+    uid: e2efb3aa-4903-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "729640448"
+        qcloud-app: dbjob
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "729640448"
+          qcloud-app: dbjob
+      spec:
+        containers:
+        - args:
+          - su
+          - root
+          - -c
+          - /bin/bash -x ./pg_backup_rotated.sh;
+          env:
+          - name: POSTGRES_USER
+            value: odoo
+          - name: POSTGRES_PASSWORD
+            value: odoo
+          - name: PGPASSWORD
+            value: odoo
+          image: postgres:9.5
+          imagePullPolicy: Always
+          name: dbjob
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/backup/db
+            name: dbbackup
+          - mountPath: /mnt/backup/filestore
+            name: filestorebackup
+          - mountPath: /mnt/backup/addons
+            name: addonsbackup
+          - mountPath: /mnt/backupscript
+            name: backupscript
+          workingDir: /mnt/backupscript
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: dbbackup
+          nfs:
+            path: /prod/db
+            server: 10.0.4.9
+        - name: filestorebackup
+          nfs:
+            path: /odoo-saas/backup/filestore
+            server: 10.0.3.13
+        - name: addonsbackup
+          nfs:
+            path: /odoo-saas/backup/addons
+            server: 10.0.3.13
+        - name: backupscript
+          nfs:
+            path: /odoo-saas/dbbackup
+            server: 10.0.3.13
+  status:
+    observedGeneration: 1
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "26"
+    creationTimestamp: 2018-04-20T06:23:19Z
+    generation: 2
+    labels:
+      pod-template-hash: "1538753570"
+      qcloud-app: odoo
+    name: odoo-1538753570
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: odoo
+      uid: 987d18be-4311-11e8-9f69-525400f7320d
+    resourceVersion: "17267123838"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/odoo-1538753570
+    uid: 51bcc0e3-4463-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "1538753570"
+        qcloud-app: odoo
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "1538753570"
+          qcloud-app: odoo
+      spec:
+        containers:
+        - env:
+          - name: ODOO_MASTER_PASS
+            value: odoo
+          - name: DB_PORT_5432_TCP_ADDR
+            value: db-saas
+          - name: INIT_SAAS_TOOLS_VALUE
+            value: ' --portal-create --server-create  --plan-create  --odoo-script=/mnt/odoo-source/odoo-bin  --odoo-config=mnt/config/odoo-server.conf  --portal-db-name=portal  --server-db-name=server-1  --server-hosts-template={dbname}.{base_saas_domain_1}  --plan-template-db-name=template-1  --plan-clients=demo-%i'
+          image: ccr.ccs.tencentyun.com/kjerp/odoo-saas:master
+          imagePullPolicy: Always
+          name: odoo
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/addons/extra
+            name: extra
+          - mountPath: /mnt/config
+            name: config
+          - mountPath: /mnt/data-dir
+            name: data-dir
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: extra
+          nfs:
+            path: /odoo-saas/addons/extra
+            server: 10.0.3.13
+        - name: config
+          nfs:
+            path: /odoo-saas/kjerpdocker/config
+            server: 10.0.3.13
+        - name: data-dir
+          nfs:
+            path: /odoo-saas/data-dir
+            server: 10.0.3.13
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "22"
+    creationTimestamp: 2018-04-20T05:23:11Z
+    generation: 2
+    labels:
+      pod-template-hash: "1948137011"
+      qcloud-app: odoo
+    name: odoo-1948137011
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: odoo
+      uid: 987d18be-4311-11e8-9f69-525400f7320d
+    resourceVersion: "17161684499"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/odoo-1948137011
+    uid: ead0a005-445a-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "1948137011"
+        qcloud-app: odoo
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "1948137011"
+          qcloud-app: odoo
+      spec:
+        containers:
+        - env:
+          - name: ODOO_MASTER_PASS
+            value: odoo
+          - name: DB_PORT_5432_TCP_ADDR
+            value: db-saas
+          - name: INIT_SAAS_TOOLS_VALUE
+            value: ' \ --portal-create \ --server-create \ --plan-create \ --odoo-script=/mnt/odoo-source/odoo-bin
+              \ --odoo-config=/mnt/config/odoo-server.conf \ --portal-db-name=portal
+              \ --server-db-name=server-1 \ --server-hosts-template={dbname}.{base_saas_domain_1}
+              \ --plan-template-db-name=template-1 \ --plan-clients=demo-%i \  UPDATE_ADDONS_PATH=yes
+              \'
+          image: itprojectsllc/install-odoo:10.0:10.0
+          imagePullPolicy: Always
+          name: odoo
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/addons/extra
+            name: extra
+          - mountPath: /mnt/config
+            name: config
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: extra
+          nfs:
+            path: /odoo-saas/addons/extra
+            server: 10.0.3.13
+        - name: config
+          nfs:
+            path: /odoo-saas/kjerpdocker/config
+            server: 10.0.3.13
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "24"
+    creationTimestamp: 2018-04-20T05:29:33Z
+    generation: 2
+    labels:
+      pod-template-hash: "2631526127"
+      qcloud-app: odoo
+    name: odoo-2631526127
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: odoo
+      uid: 987d18be-4311-11e8-9f69-525400f7320d
+    resourceVersion: "17162099620"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/odoo-2631526127
+    uid: ceb34296-445b-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "2631526127"
+        qcloud-app: odoo
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "2631526127"
+          qcloud-app: odoo
+      spec:
+        containers:
+        - env:
+          - name: ODOO_MASTER_PASS
+            value: odoo
+          - name: DB_PORT_5432_TCP_ADDR
+            value: db-saas
+          - name: INIT_SAAS_TOOLS_VALUE
+            value: ' \ --portal-create \ --server-create \ --plan-create \ --odoo-script=/mnt/odoo-source/odoo-bin
+              \ --odoo-config=/mnt/config/odoo-server.conf \ --portal-db-name=portal
+              \ --server-db-name=server-1 \ --server-hosts-template={dbname}.{base_saas_domain_1}
+              \ --plan-template-db-name=template-1 \ --plan-clients=demo-%i \  UPDATE_ADDONS_PATH=yes
+              \'
+          image: ccr.ccs.tencentyun.com/kjerp/odoo-saas:master
+          imagePullPolicy: Always
+          name: odoo
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/addons/extra
+            name: extra
+          - mountPath: /mnt/config
+            name: config
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: extra
+          nfs:
+            path: /odoo-saas/addons/extra
+            server: 10.0.3.13
+        - name: config
+          nfs:
+            path: /odoo-saas/kjerpdocker/config
+            server: 10.0.3.13
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "25"
+    creationTimestamp: 2018-04-20T05:30:25Z
+    generation: 2
+    labels:
+      pod-template-hash: "3290201015"
+      qcloud-app: odoo
+    name: odoo-3290201015
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: odoo
+      uid: 987d18be-4311-11e8-9f69-525400f7320d
+    resourceVersion: "17166269000"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/odoo-3290201015
+    uid: ed6397ea-445b-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "3290201015"
+        qcloud-app: odoo
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "3290201015"
+          qcloud-app: odoo
+      spec:
+        containers:
+        - env:
+          - name: ODOO_MASTER_PASS
+            value: odoo
+          - name: DB_PORT_5432_TCP_ADDR
+            value: db-saas
+          - name: INIT_SAAS_TOOLS_VALUE
+            value: ' --portal-create --server-create  --plan-create  --odoo-script=/mnt/odoo-source/odoo-bin  --odoo-config=mnt/config/odoo-server.conf  --portal-db-name=portal  --server-db-name=server-1  --server-hosts-template={dbname}.{base_saas_domain_1}  --plan-template-db-name=template-1  --plan-clients=demo-%i'
+          image: ccr.ccs.tencentyun.com/kjerp/odoo-saas:master
+          imagePullPolicy: Always
+          name: odoo
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/addons/extra
+            name: extra
+          - mountPath: /mnt/config
+            name: config
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: extra
+          nfs:
+            path: /odoo-saas/addons/extra
+            server: 10.0.3.13
+        - name: config
+          nfs:
+            path: /odoo-saas/kjerpdocker/config
+            server: 10.0.3.13
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "23"
+    creationTimestamp: 2018-04-20T05:25:21Z
+    generation: 3
+    labels:
+      pod-template-hash: "4269438012"
+      qcloud-app: odoo
+    name: odoo-4269438012
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: odoo
+      uid: 987d18be-4311-11e8-9f69-525400f7320d
+    resourceVersion: "17162030798"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/odoo-4269438012
+    uid: 384497a1-445b-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "4269438012"
+        qcloud-app: odoo
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "4269438012"
+          qcloud-app: odoo
+      spec:
+        containers:
+        - env:
+          - name: ODOO_MASTER_PASS
+            value: odoo
+          - name: DB_PORT_5432_TCP_ADDR
+            value: db-saas
+          - name: INIT_SAAS_TOOLS_VALUE
+            value: ' \ --portal-create \ --server-create \ --plan-create \ --odoo-script=/mnt/odoo-source/odoo-bin
+              \ --odoo-config=/mnt/config/odoo-server.conf \ --portal-db-name=portal
+              \ --server-db-name=server-1 \ --server-hosts-template={dbname}.{base_saas_domain_1}
+              \ --plan-template-db-name=template-1 \ --plan-clients=demo-%i \  UPDATE_ADDONS_PATH=yes
+              \'
+          image: ccr.ccs.tencentyun.com/kjerp/odoo-saas:master
+          imagePullPolicy: Always
+          name: odoo
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/addons/extra
+            name: extra
+          - mountPath: /mnt/config
+            name: config
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: extra
+          nfs:
+            path: /odoo-saas/addons/extra
+            server: 10.0.3.13
+        - name: config
+          nfs:
+            path: /odoo-saas/kjerpdocker/config
+            server: 10.0.3.13
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "27"
+    creationTimestamp: 2018-04-21T03:40:08Z
+    generation: 3
+    labels:
+      pod-template-hash: "808074148"
+      qcloud-app: odoo
+    name: odoo-808074148
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: odoo
+      uid: 987d18be-4311-11e8-9f69-525400f7320d
+    resourceVersion: "17856075875"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/odoo-808074148
+    uid: afe7c1f9-4515-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 1
+    selector:
+      matchLabels:
+        pod-template-hash: "808074148"
+        qcloud-app: odoo
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "808074148"
+          qcloud-app: odoo
+      spec:
+        containers:
+        - env:
+          - name: ODOO_MASTER_PASS
+            value: odoo
+          - name: DB_PORT_5432_TCP_ADDR
+            value: db-saas
+          - name: INIT_SAAS_TOOLS_VALUE
+            value: ' --portal-create --server-create  --plan-create  --odoo-script=/mnt/odoo-source/odoo-bin  --odoo-config=mnt/config/odoo-server.conf  --portal-db-name=portal  --server-db-name=server-1  --server-hosts-template={dbname}.{base_saas_domain_1}  --plan-template-db-name=template-1  --plan-clients=demo-%i'
+          image: ccr.ccs.tencentyun.com/kjerp/odoo-saas:master
+          imagePullPolicy: Always
+          name: odoo
+          resources:
+            limits:
+              cpu: 500m
+              memory: 800Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/addons/extra
+            name: extra
+          - mountPath: /mnt/config
+            name: config
+          - mountPath: /mnt/data-dir
+            name: data-dir
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: extra
+          nfs:
+            path: /odoo-saas/addons/extra
+            server: 10.0.3.13
+        - name: config
+          nfs:
+            path: /odoo-saas/kjerpdocker/config
+            server: 10.0.3.13
+        - name: data-dir
+          nfs:
+            path: /odoo-saas/data-dir
+            server: 10.0.3.13
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 3
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: RollingBack
+      deployment.kubernetes.io/desired-replicas: "0"
+      deployment.kubernetes.io/max-replicas: "1"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: 2018-04-25T14:22:53Z
+    generation: 2
+    labels:
+      pod-template-hash: "2568682453"
+      qcloud-app: odoo-tmp
+    name: odoo-tmp-2568682453
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: odoo-tmp
+      uid: 24657d2b-4894-11e8-9f69-525400f7320d
+    resourceVersion: "17856044497"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/odoo-tmp-2568682453
+    uid: 2467544f-4894-11e8-9f69-525400f7320d
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "2568682453"
+        qcloud-app: odoo-tmp
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "2568682453"
+          qcloud-app: odoo-tmp
+      spec:
+        containers:
+        - env:
+          - name: ODOO_MASTER_PASS
+            value: odoo
+          - name: DB_PORT_5432_TCP_ADDR
+            value: db-saas
+          image: itprojectsllc/install-odoo:10.0
+          imagePullPolicy: Always
+          name: odoo-tmp
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/addons/extra
+            name: extra
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: extra
+          nfs:
+            path: /odoo-saas/addons/extra
+            server: 10.0.3.13
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "43"
+    creationTimestamp: 2018-04-25T18:36:03Z
+    generation: 1
+    labels:
+      pod-template-hash: "1004072575"
+      qcloud-app: saas-nginx
+    name: saas-nginx-1004072575
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: saas-nginx
+      uid: 0fbecc9f-4312-11e8-9f69-525400f7320d
+    resourceVersion: "17796146649"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/saas-nginx-1004072575
+    uid: 82072388-48b7-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 1
+    selector:
+      matchLabels:
+        pod-template-hash: "1004072575"
+        qcloud-app: saas-nginx
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "1004072575"
+          qcloud-app: saas-nginx
+      spec:
+        containers:
+        - image: itprojectsllc/docker-odoo-nginx
+          imagePullPolicy: Always
+          name: saas-nginx
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/tmp
+            name: nginx
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: nginx
+          nfs:
+            path: /odoo-saas/nginx
+            server: 10.0.3.13
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "42"
+    creationTimestamp: 2018-04-25T18:32:02Z
+    generation: 3
+    labels:
+      pod-template-hash: "196428343"
+      qcloud-app: saas-nginx
+    name: saas-nginx-196428343
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: saas-nginx
+      uid: 0fbecc9f-4312-11e8-9f69-525400f7320d
+    resourceVersion: "17796146940"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/saas-nginx-196428343
+    uid: f2450185-48b6-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "196428343"
+        qcloud-app: saas-nginx
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "196428343"
+          qcloud-app: saas-nginx
+      spec:
+        containers:
+        - image: itprojectsllc/docker-odoo-nginx
+          imagePullPolicy: Always
+          name: saas-nginx
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/nginx/
+            name: nginx
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: nginx
+          nfs:
+            path: /odoo-saas/nginx
+            server: 10.0.3.13
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: RollingBack
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "39"
+      deployment.kubernetes.io/revision-history: 37,37
+    creationTimestamp: 2018-04-25T18:26:23Z
+    generation: 5
+    labels:
+      pod-template-hash: "2793815948"
+      qcloud-app: saas-nginx
+    name: saas-nginx-2793815948
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: saas-nginx
+      uid: 0fbecc9f-4312-11e8-9f69-525400f7320d
+    resourceVersion: "17795656554"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/saas-nginx-2793815948
+    uid: 289edc29-48b6-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "2793815948"
+        qcloud-app: saas-nginx
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "2793815948"
+          qcloud-app: saas-nginx
+      spec:
+        containers:
+        - args:
+          - nginx -g  'daemon off'
+          image: itprojectsllc/docker-odoo-nginx
+          imagePullPolicy: Always
+          name: saas-nginx
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/nginx
+            name: nginx
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: nginx
+          nfs:
+            path: /odoo-saas/nginx
+            server: 10.0.3.13
+  status:
+    observedGeneration: 5
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "40"
+    creationTimestamp: 2018-04-25T18:30:10Z
+    generation: 3
+    labels:
+      pod-template-hash: "298424010"
+      qcloud-app: saas-nginx
+    name: saas-nginx-298424010
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: saas-nginx
+      uid: 0fbecc9f-4312-11e8-9f69-525400f7320d
+    resourceVersion: "17795696594"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/saas-nginx-298424010
+    uid: afd77b9f-48b6-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "298424010"
+        qcloud-app: saas-nginx
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "298424010"
+          qcloud-app: saas-nginx
+      spec:
+        containers:
+        - args:
+          - nginx -g  'daemon off'
+          image: itprojectsllc/docker-odoo-nginx
+          imagePullPolicy: Always
+          name: saas-nginx
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/nginx/nginx.conf
+            name: nginx
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: nginx
+          nfs:
+            path: /odoo-saas/nginx/nginx.conf
+            server: 10.0.3.13
+  status:
+    observedGeneration: 3
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: RollingBack
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "38"
+      deployment.kubernetes.io/revision-history: 36,38
+    creationTimestamp: 2018-04-25T18:24:28Z
+    generation: 5
+    labels:
+      pod-template-hash: "3162659128"
+      qcloud-app: saas-nginx
+    name: saas-nginx-3162659128
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: saas-nginx
+      uid: 0fbecc9f-4312-11e8-9f69-525400f7320d
+    resourceVersion: "17795471839"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/saas-nginx-3162659128
+    uid: e3e23a72-48b5-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "3162659128"
+        qcloud-app: saas-nginx
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "3162659128"
+          qcloud-app: saas-nginx
+      spec:
+        containers:
+        - args:
+          - su
+          - root
+          - '-c '
+          - /bin/bash -x nginx -g  'daemon off'
+          image: itprojectsllc/docker-odoo-nginx
+          imagePullPolicy: Always
+          name: saas-nginx
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /mnt/nginx
+            name: nginx
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: nginx
+          nfs:
+            path: /odoo-saas/nginx
+            server: 10.0.3.13
+  status:
+    observedGeneration: 5
+    replicas: 0
+- apiVersion: extensions/v1beta1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      cloud.tencent.com/volume-configmap-info: '[]'
+      deployment.changecourse: Updating
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "41"
+    creationTimestamp: 2018-04-25T18:30:40Z
+    generation: 3
+    labels:
+      pod-template-hash: "4108761693"
+      qcloud-app: saas-nginx
+    name: saas-nginx-4108761693
+    namespace: prod
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: saas-nginx
+      uid: 0fbecc9f-4312-11e8-9f69-525400f7320d
+    resourceVersion: "17795804371"
+    selfLink: /apis/extensions/v1beta1/namespaces/prod/replicasets/saas-nginx-4108761693
+    uid: c1875589-48b6-11e8-9f69-525400f7320d
+  spec:
+    minReadySeconds: 10
+    replicas: 0
+    selector:
+      matchLabels:
+        pod-template-hash: "4108761693"
+        qcloud-app: saas-nginx
+    template:
+      metadata:
+        annotations:
+          cloud.tencent.com/volume-configmap-info: '[]'
+        creationTimestamp: null
+        labels:
+          pod-template-hash: "4108761693"
+          qcloud-app: saas-nginx
+      spec:
+        containers:
+        - args:
+          - nginx -g  'daemon off'
+          image: itprojectsllc/docker-odoo-nginx
+          imagePullPolicy: Always
+          name: saas-nginx
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/nginx/nginx.conf
+            name: nginx
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: qcloudregistrykey
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: nginx
+          nfs:
+            path: /odoo-saas/nginx/nginx.conf
+            server: 10.0.3.13
+  status:
+    observedGeneration: 3
+    replicas: 0
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
