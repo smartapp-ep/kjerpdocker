@@ -19,5 +19,5 @@ RUN sed -i 's/dbfilter.*/dbfilter = ^%d$/' /mnt/config/odoo-server.conf
 RUN echo "Asia/shanghai" > /etc/timezone;
 
 USER odoo
-VOLUME ["/mnt/data-dir"
+VOLUME ["/mnt/config"]
 
