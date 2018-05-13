@@ -9,6 +9,10 @@ FROM itprojectsllc/install-odoo:10.0
 
 USER root
 
+# install dependence for alipay
+pip install pycrypto
+
+
 # update addon path
 RUN UPDATE_ADDONS_PATH=yes \
     bash -x install-odoo-saas.sh
