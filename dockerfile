@@ -10,7 +10,7 @@ FROM itprojectsllc/install-odoo:10.0
 USER root
 
 # install dependence for alipay
-pip install pycrypto
+RUN pip install pycrypto
 
 
 # update addon path
