@@ -23,7 +23,7 @@ RUN sed -i 's/dbfilter.*/dbfilter = ^%d$/' /mnt/config/odoo-server.conf
 RUN echo "Asia/shanghai" > /etc/timezone;
 
 # pull translations
-RUN git clone --depth=1 https://github.com/smartapp-ep/kjerp-translation-cn.git /tmp &&
+RUN git clone --depth=1 https://github.com/smartapp-ep/kjerp-translation-cn.git /tmp && \
     cp -vr /tmp/addons/* /mnt/odoo-source/addons
 
 USER odoo
