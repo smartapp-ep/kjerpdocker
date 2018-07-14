@@ -9,6 +9,17 @@ FROM itprojectsllc/install-odoo:10.0
 
 USER root
 
+# Set OS timezone to China
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+# Set Odoo timezone to China (will be set at startup thanks to Odoo
+# parameter substitution)
+ENV ODOO_TIMEZONE=Asia/Shanghai
+
+# CN fonts
+RUN apt-get update && \
+  apt-get -y install ttf-wqy-zenhei
+
 # install dependence for alipay
 RUN pip install pycrypto
 
@@ -20,7 +31,7 @@ RUN UPDATE_ADDONS_PATH=yes \
 # update config to support domains
 
 RUN sed -i 's/dbfilter.*/dbfilter = ^%d$/' /mnt/config/odoo-server.conf
-RUN echo "Asia/shanghai" > /etc/timezone;
+# RUN echo "Asia/shanghai" > /etc/timezone;
 
 # pull translations
 RUN git clone --depth=1 https://github.com/smartapp-ep/kjerp-translation-cn.git /tmp && \
