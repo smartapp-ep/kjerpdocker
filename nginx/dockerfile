@@ -1,0 +1,10 @@
+FROM nginx
+MAINTAINER Camptocamp
+
+# Set OS timezone to China
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+#COPY etc/odoo_params.conf /etc/nginx/
+COPY etc/nginx.conf /etc/nginx/
+
+#EXPOSE 80 8080
