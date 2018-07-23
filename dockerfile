@@ -16,9 +16,11 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 # parameter substitution)
 ENV ODOO_TIMEZONE=Asia/Shanghai
 
-# CN fonts
+# CN fonts & xlrd
 RUN apt-get update && \
   apt-get -y install ttf-wqy-zenhei
+  pip install xlrd
+
 
 # install dependence for alipay
 RUN pip install pycrypto
