@@ -18,7 +18,7 @@ ENV ODOO_TIMEZONE=Asia/Shanghai
 
 # CN fonts & xlrd
 RUN apt-get update && \
-  apt-get -y install ttf-wqy-zenhei
+  apt-get -y install ttf-wqy-zenhei && \
   pip install xlrd
 
 
