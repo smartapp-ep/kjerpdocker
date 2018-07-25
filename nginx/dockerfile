@@ -11,4 +11,4 @@ COPY etc/nginx.conf /etc/nginx/
 
 RUN mkdir /var/www
 
-VOLUME ["/var/www"]
+#VOLUME ["/var/www"]
