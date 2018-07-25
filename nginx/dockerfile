@@ -7,4 +7,8 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 #COPY etc/odoo_params.conf /etc/nginx/
 COPY etc/nginx.conf /etc/nginx/
 
-#EXPOSE 80 8080
+#EXPOSE 80 443 8080
+
+RUN mkdir /var/www
+
+VOLUME ["/var/www"]
