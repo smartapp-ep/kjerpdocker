@@ -39,6 +39,9 @@ RUN sed -i 's/dbfilter.*/dbfilter = ^%d$/' /mnt/config/odoo-server.conf
 RUN git clone --depth=1 https://github.com/smartapp-ep/kjerp-translation-cn.git /tmp && \
     cp -vr /tmp/addons/* /mnt/odoo-source/addons
 
+# patches
+COPY /patches/addons/hr_expense/wizard/hr_expense_register_payment.py /mnt/odoo-source/addons/hr_expense/wizard/hr_expense_register_payment.py
+
 USER odoo
 VOLUME ["/mnt/config"]
 
